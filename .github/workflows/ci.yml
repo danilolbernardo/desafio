@@ -27,4 +27,4 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Push Docker Image
-      run: docker push IMAGE_REPOSITORY
+      run: docker push $IMAGE_REPOSITORY
