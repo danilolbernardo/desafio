@@ -1,10 +1,7 @@
 name: Pipeline CI
 
 on:
-  push:
-    branches:
-      - develop
-      - feat/pipeline-ci
+  workflow_dispatch:
 
 jobs:
   build:
