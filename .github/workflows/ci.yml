@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - develop
+      - feat/pipeline-ci
 
 jobs:
   build:
@@ -24,7 +25,7 @@ jobs:
         password: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Build Docker Image
-      run: docker build -t $IMAGE_REPOSITORY .
+      run: docker build -f Dockerfile -t $IMAGE_REPOSITORY .
 
     - name: Push Docker Image
       run: docker push IMAGE_REPOSITORY
