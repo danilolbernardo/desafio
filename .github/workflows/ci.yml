@@ -1,4 +1,4 @@
-name: Pipeline CI
+name: Pipeline CI/CD
 
 on:
   workflow_dispatch:
@@ -25,3 +25,13 @@ jobs:
 
     - name: Push Docker Image
       run: docker push $IMAGE_REPOSITORY
+
+    - name: Configure kubeconfig
+      run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig && export KUBECONFIG=kubeconfig
+
+    - name: Update Kubernetes Manifests
+      run: |
+        sed -i "s|image: .*|image: $IMAGE_REPOSITORY|g" k8s/*.yaml
+
+    - name: Apply Kubernetes Manifests
+      run: kubectl apply -f k8s/
