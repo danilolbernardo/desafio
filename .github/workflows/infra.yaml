@@ -1,11 +1,11 @@
 name: Infra Terraform 
 
 on:
-  push:
+  pull_request:
     branches:
-      - feat/infra
-    #paths:
-    #  - 'infra/**'
+      - main
+    paths:
+      - 'infra/**'
 
 jobs:
   terraform:
