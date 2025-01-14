@@ -1,0 +1,15 @@
+# Arquivos terraform
+infra/*.tfstate
+infra/*.tfstate.*
+infra/crash.log
+infra/override.tf
+infra/override.tf.json
+infra/*_override.tf
+infra/*_override.tf.json
+infra/*.tfplan
+infra/*.tfvars
+infra/*.tfvars.json
+infra/.terraform/
+infra/.terraform.lock.hcl
+infra/*.log
+infra/*.backup
