@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - feat/infra
-    paths:
-      - 'infra/**'
+    #paths:
+    #  - 'infra/**'
 
 jobs:
   terraform:
