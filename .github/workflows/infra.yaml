@@ -1,0 +1,45 @@
+name: Infra Terraform 
+
+on:
+  push:
+    branches:
+      - feat/infra
+    paths:
+      - 'infra/**'
+
+jobs:
+  terraform:
+    name: Provision Infrastructure
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.10.4
+
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ./infra
+
+    - name: Terraform Validate
+      run: terraform validate
+      working-directory: ./infra
+
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
+      working-directory: ./infra
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Terraform Apply
+      if: github.event.pull_request.merged == true
+      run: terraform apply -auto-approve tfplan
+      working-directory: ./infra
+      env:
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
