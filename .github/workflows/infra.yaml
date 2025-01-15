@@ -37,7 +37,6 @@ jobs:
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     - name: Terraform Apply
-      if: github.event.pull_request.merged == true
       run: terraform apply -auto-approve tfplan
       working-directory: ./infra
       env:
