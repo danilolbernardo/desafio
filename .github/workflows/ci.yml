@@ -26,8 +26,15 @@ jobs:
     - name: Push Docker Image
       run: docker push $IMAGE_REPOSITORY
 
-    - name: Configure kubeconfig
-      run: echo "${{ secrets.KUBECONFIG }}" > kubeconfig && export KUBECONFIG=kubeconfig
+    - name: Configure AWS CLI
+      uses: aws-actions/configure-aws-credentials@v3
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: us-east-1  
+
+    - name: Update kubeconfig for Amazon EKS
+      run: aws eks update-kubeconfig --region us-east-1 --name eks-cluster
 
     - name: Update Kubernetes Manifests
       run: |
